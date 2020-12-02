@@ -1,4 +1,5 @@
-def find_sum_2020_and_multiply(numbers, amount_to_find, start = 2, result_table = [], sum_result = 0):
+import numpy as np
+def find_sum_components(numbers, amount_to_find, number_to_find, start = 2, result_table = [], sum_result = 0):
     if start <= amount_to_find:
         for number in numbers:
             new_numbers = numbers[numbers.index(number)+1:]
@@ -7,16 +8,16 @@ def find_sum_2020_and_multiply(numbers, amount_to_find, start = 2, result_table 
             for second_number in new_numbers:
                 result_table.append(second_number)
                 sum_result = sum(result_table)
-                if sum_result == 2020:
+                if sum_result == number_to_find:
                     if (amount_to_find == start):
                         return result_table
                     else:
                         sum_result = 0
                         continue
-                elif sum_result < 2020 and (start + 1) <= amount_to_find:
-                    find_sum_2020_and_multiply(new_numbers[new_numbers.index(second_number):], amount_to_find, start + 1, result_table, sum_result)
+                elif sum_result < number_to_find and (start + 1) <= amount_to_find:
+                    find_sum_components(new_numbers[new_numbers.index(second_number):], amount_to_find, number_to_find, start + 1, result_table, sum_result)
                     sum_result = sum(result_table)
-                    if sum_result == 2020:
+                    if sum_result == number_to_find:
                         return result_table
                 else:
                     sum_result = 0
@@ -35,4 +36,6 @@ if __name__ == "__main__":
             lines.append(int(line))
         else:
             break
-    print(find_sum_2020_and_multiply(lines,3))
+    found_components = find_sum_components(lines,3,number_to_find=2020)
+    print(found_components)
+    print(np.prod(found_components))
